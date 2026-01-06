@@ -1,0 +1,9 @@
+{
+  "name": "python-todo-app",
+  "version": "0.1.0",
+  "description": "A Python in-memory console Todo application",
+  "scripts": {
+    "dev": "python -m src",
+    "test": "python -m unittest discover tests"
+  }
+}
