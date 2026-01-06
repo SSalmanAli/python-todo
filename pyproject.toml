@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools"
+
+[project]
+name = "python-todo-app"
+version = "0.1.0"
+description = "A Python in-memory console Todo application"
+authors = [{name = "Developer", email = "dev@example.com"}]
+requires-python = ">=3.8"
