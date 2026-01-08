@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"& ''.specify/scripts/powershell/create-new-feature.ps1'' -Json -Number 1 -ShortName ''fastapi-todo-backend'' @\\(''specify a FastAPI backend that converts the existing Python CLI Todo application into a RESTful service using SQLModel and NeonDB for persistent storage. The backend must expose JWT-protected endpoints scoped by user_id to create, list, retrieve, update, delete, and toggle completion of tasks, ensuring users can access only their own data. Task data must be modeled with SQLModel, business logic must reside in a service layer derived from the CLI implementation, and API routes must return JSON-only responses. The backend must follow clean code principles, maintain a modular project structure, validate JWT tokens without handling login flows, and operate strictly within backend scope without frontend or UI concerns.''\\)\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"& ''.specify/scripts/powershell/setup-plan.ps1'' -Json\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"& ''.specify/scripts/powershell/update-agent-context.ps1'' -AgentType claude\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"& ''.specify/scripts/powershell/check-prerequisites.ps1'' -Json\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"& ''.specify/scripts/powershell/check-prerequisites.ps1'' -Json -RequireTasks -IncludeTasks\")",
+      "Bash(dir \"C:\\\\Users\\\\san\\\\Desktop\\\\python-todo\\\\specs\\\\001-fastapi-todo-backend\\\\checklists\"\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"Test-Path ''C:\\\\Users\\\\san\\\\Desktop\\\\python-todo\\\\specs\\\\001-fastapi-todo-backend\\\\checklists''\")"
+    ]
+  }
+}

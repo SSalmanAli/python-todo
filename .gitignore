@@ -54,3 +54,17 @@ htmlcov/
 
 # Pytest
 .pytest_cache/
+
+# Backend specific
+backend/__pycache__/
+backend/*.pyc
+backend/venv/
+backend/env/
+backend/.env
+backend/*.log
+backend/.pytest_cache/
+backend/__pycache__/
+
+# Alembic
+backend/alembic/versions/*.py
+!backend/alembic/versions/README
