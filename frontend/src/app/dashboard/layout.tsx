@@ -3,13 +3,22 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/providers/AuthProvider';
+import { signOut } from 'next-auth/react';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const { logout, isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
   const handleLogout = () => {
-    logout();
+    signOut({ callbackUrl: '/auth/login' });
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     // Redirect to login if not authenticated

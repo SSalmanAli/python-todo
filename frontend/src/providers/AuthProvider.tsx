@@ -1,12 +1,14 @@
-// Authentication context/provider for managing user session state
+"use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { UserSession } from '../types/auth.types';
+// Authentication context/provider using NextAuth
+import React, { createContext, useContext, ReactNode, useEffect, useState } from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react';
+import { UserSession } from '@/lib/types/auth.types';
 
 interface AuthContextType {
   userSession: UserSession | null;
-  login: (token: string, userId: string) => void;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
   isLoading: boolean;
 }
@@ -18,57 +20,61 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const { data: session, status } = useSession();
   const [userSession, setUserSession] = useState<UserSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing session on component mount
-    const storedToken = localStorage.getItem('authToken');
-    const storedUserId = localStorage.getItem('userId');
+    if (status === 'loading') {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+      if (session && session.user) {
+        const nextAuthUserSession: UserSession = {
+          userId: (session as any).user?.id || '',
+          token: (session as any).accessToken || '',
+          expiresAt: session.expires || '',
+          isAuthenticated: true,
+        };
+        setUserSession(nextAuthUserSession);
 
-    if (storedToken && storedUserId) {
-      const session: UserSession = {
-        userId: storedUserId,
-        token: storedToken,
-        expiresAt: localStorage.getItem('expiresAt') || '',
-        isAuthenticated: true,
-      };
-      setUserSession(session);
+        // Store token in localStorage for API client
+        if ((session as any).accessToken) {
+          localStorage.setItem('authToken', (session as any).accessToken);
+        }
+      } else {
+        setUserSession(null);
+        localStorage.removeItem('authToken');
+      }
     }
+  }, [session, status]);
 
-    setIsLoading(false);
-  }, []);
+  const login = async (email: string, password: string) => {
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
 
-  const login = (token: string, userId: string) => {
-    const session: UserSession = {
-      userId,
-      token,
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
-      isAuthenticated: true,
-    };
-
-    setUserSession(session);
-
-    // Store in localStorage
-    localStorage.setItem('authToken', token);
-    localStorage.setItem('userId', userId);
-    localStorage.setItem('expiresAt', session.expiresAt);
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
   };
 
-  const logout = () => {
-    setUserSession(null);
-
-    // Remove from localStorage
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('expiresAt');
+  const logout = async () => {
+    await signOut({ redirect: false });
   };
 
   const value: AuthContextType = {
     userSession,
     login,
     logout,
-    isAuthenticated: !!userSession?.isAuthenticated,
+    isAuthenticated: !!session,
     isLoading,
   };
 

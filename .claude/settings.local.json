@@ -8,7 +8,9 @@
       "Bash(powershell -ExecutionPolicy Bypass -Command \"& ''.specify/scripts/powershell/check-prerequisites.ps1'' -Json -RequireTasks -IncludeTasks\")",
       "Bash(dir \"C:\\\\Users\\\\san\\\\Desktop\\\\python-todo\\\\specs\\\\001-fastapi-todo-backend\\\\checklists\"\")",
       "Bash(powershell -ExecutionPolicy Bypass -Command \"Test-Path ''C:\\\\Users\\\\san\\\\Desktop\\\\python-todo\\\\specs\\\\001-fastapi-todo-backend\\\\checklists''\")",
-      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)"
+      "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
+      "Bash(npm run dev)",
+      "Bash(npm run build)"
     ]
   }
 }

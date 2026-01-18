@@ -1,10 +1,10 @@
 # Next.js Frontend Todo Application
 
-This is the frontend for the Todo application built with Next.js, TypeScript, and Tailwind CSS. It consumes the FastAPI backend for all data operations and uses BetterAuth for authentication.
+This is the frontend for the Todo application built with Next.js, TypeScript, Tailwind CSS, and NextAuth. It consumes the FastAPI backend for all data operations and uses NextAuth for authentication.
 
 ## Features
 
-- User authentication and authorization
+- User authentication and authorization with NextAuth
 - Create, read, update, and delete tasks
 - Toggle task completion status
 - Responsive design for desktop and mobile
@@ -18,18 +18,24 @@ This is the frontend for the Todo application built with Next.js, TypeScript, an
 
 ## Installation
 
-1. Clone the repository
-2. Navigate to the frontend directory: `cd frontend`
-3. Install dependencies: `npm install`
-4. Copy the environment file: `cp .env.example .env.local`
-5. Update the environment variables with your backend configuration
+1. Navigate to the frontend directory: `cd frontend`
+2. Install dependencies: `npm install`
+3. Copy the environment file: `cp .env.example .env.local`
+4. Update the environment variables with your backend configuration
 
 ## Environment Variables
 
-- `BACKEND_API_URL`: Base URL for the FastAPI backend (default: http://localhost:8000)
-- `BACKEND_API_BASE_PATH`: Base path for API endpoints (default: /api/v1)
-- `NEXT_PUBLIC_BETTER_AUTH_URL`: BetterAuth server URL
-- `BETTER_AUTH_SECRET`: Secret key for authentication
+Create a `.env.local` file with the following variables:
+
+```env
+# Backend API Configuration
+BACKEND_API_URL=http://localhost:8000
+BACKEND_API_BASE_PATH=/api/v1
+
+# NextAuth Configuration
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-secret-key-here
+```
 
 ## Running the Application
 
@@ -38,15 +44,22 @@ This is the frontend for the Todo application built with Next.js, TypeScript, an
 - Production server: `npm run start`
 - Linting: `npm run lint`
 
+## Authentication
+
+The application uses NextAuth for authentication with a credentials provider. For testing purposes, you can use:
+- Email: `user@example.com`
+- Password: `password`
+
 ## Project Structure
 
 ```
 frontend/
 ├── src/
 │   ├── app/                    # Next.js App Router pages
-│   │   ├── (auth)/            # Authentication-related pages
-│   │   │   ├── login/
-│   │   │   └── register/
+│   │   ├── api/               # API routes (including NextAuth)
+│   │   │   └── auth/[...nextauth]/ # NextAuth API route
+│   │   ├── auth/              # Authentication-related pages
+│   │   │   └── login/         # Login page
 │   │   ├── dashboard/         # Main dashboard with tasks
 │   │   ├── globals.css        # Global styles
 │   │   └── layout.tsx         # Root layout
@@ -56,8 +69,8 @@ frontend/
 │   ├── lib/                   # Utilities and helper functions
 │   │   ├── api/               # API client and request utilities
 │   │   └── types/             # TypeScript type definitions
-│   ├── hooks/                 # Custom React hooks
-│   └── providers/             # React context providers
+│   ├── providers/             # React context providers
+│   └── auth/                  # NextAuth configuration
 ├── public/                    # Static assets
 ├── .env.example              # Environment variables template
 ├── next.config.js            # Next.js configuration
