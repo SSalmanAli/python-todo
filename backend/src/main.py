@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from src.api.routes import tasks
+from src.api.routes.auth import router as auth_router
 from src.config.database import create_db_and_tables
 from fastapi.responses import JSONResponse
 
@@ -44,6 +45,7 @@ async def root():
         "routes": [
             {"path": "/", "description": "Root endpoint with available routes."},
             {"path": "/health", "description": "Health check endpoint."},
+            {"path": "/auth", "description": "Authentication operations (register, login)."},
             {"path": "/tasks", "description": "Task-related operations."}
         ],
         "documentation_url": "/docs"
@@ -51,6 +53,7 @@ async def root():
 
 
 # Include API routes
+app.include_router(auth_router, prefix="/auth", tags=["authentication"])
 app.include_router(tasks.router, prefix="/tasks", tags=["tasks"])
 
 
