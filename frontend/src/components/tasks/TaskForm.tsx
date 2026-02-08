@@ -67,7 +67,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskCreated }) => {
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border"
+            className="shadow-sm text-black focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border"
             placeholder="Task title"
             disabled={submitting}
           />
@@ -82,7 +82,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onTaskCreated }) => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border"
+            className="shadow-sm text-black focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border"
             placeholder="Task description (optional)"
             disabled={submitting}
           />

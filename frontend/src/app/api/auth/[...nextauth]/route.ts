@@ -17,11 +17,9 @@ const authOptions = {
         // In a real implementation, you would call your FastAPI backend
 
         if (credentials?.email && credentials?.password) {
-          // Simulate API call to backend for authentication
-          // This is a mock implementation - replace with actual backend call
+          // Call the FastAPI backend for authentication
           try {
-            // In a real implementation, you would make a call to your FastAPI backend
-            const response = await fetch(`${process.env.BACKEND_API_URL}/api/v1/auth/login`, {
+            const response = await fetch(`${process.env.BACKEND_API_URL}/auth/token`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -31,15 +29,32 @@ const authOptions = {
             });
 
             if (!response.ok) {
-              throw new Error('Invalid credentials');
+              // Log the error details for debugging
+              const errorData = await response.json().catch(() => ({}));
+              console.error('Authentication error response:', errorData);
+              throw new Error(`Invalid credentials: ${response.status}`);
             }
 
-            const user = await response.json();
+            const tokenData = await response.json();
+
+            // Get user details using the token
+            const userResponse = await fetch(`${process.env.BACKEND_API_URL}/auth/me`, {
+              headers: {
+                'Authorization': `Bearer ${tokenData.access_token}`
+              }
+            });
+
+            if (!userResponse.ok) {
+              throw new Error('Failed to fetch user details');
+            }
+
+            const userData = await userResponse.json();
+
             return {
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              accessToken: user.accessToken
+              id: userData.id,
+              name: userData.username,
+              email: userData.email,
+              accessToken: tokenData.access_token
             };
           } catch (error) {
             console.error('Authentication error:', error);

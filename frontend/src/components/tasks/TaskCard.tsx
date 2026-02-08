@@ -81,13 +81,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onUpdate }) => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border rounded-md mb-2"
+            className="w-full p-2 border rounded-md mb-2 text-black"
             placeholder="Task title"
           />
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border rounded-md mb-2"
+            className="w-full p-2 border rounded-md mb-2 text-black"
             placeholder="Task description"
             rows={3}
           />

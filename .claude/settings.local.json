@@ -10,7 +10,19 @@
       "Bash(powershell -ExecutionPolicy Bypass -Command \"Test-Path ''C:\\\\Users\\\\san\\\\Desktop\\\\python-todo\\\\specs\\\\001-fastapi-todo-backend\\\\checklists''\")",
       "Bash(.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks)",
       "Bash(npm run dev)",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(python -c \"from src.main import app; import uvicorn; uvicorn.run\\(app, host=''0.0.0.0'', port=8000\\)\")",
+      "Bash(find backend -name \"*.py\" -exec grep -l \"auth\\\\|login\\\\|signup\\\\|register\" {} ;)",
+      "Bash(find backend/src -name \"*.py\" -exec grep -l \"user\" {} ;)",
+      "Bash(python -c \"from src.main import app; import uvicorn; uvicorn.run\\(app, host=''0.0.0.0'', port=8001\\)\")",
+      "Bash(pip install -r requirements.txt)",
+      "Bash(curl -s -X POST http://localhost:8001/auth/register -H \"Content-Type: application/json\" -d \"{\"\"email\"\":\"\"test@example.com\"\",\"\"username\"\":\"\"testuser\"\",\"\"password\"\":\"\"password123\"\"}\")",
+      "Bash(curl -s -X POST http://localhost:8001/auth/register -H \"Content-Type: application/json\" -d \"{\"\"email\"\":\"\"test@example.com\"\",\"\"username\"\":\"\"testuser\"\",\"\"password\"\":\"\"pass123\"\"}\")",
+      "Bash(curl -s -X POST http://localhost:8001/auth/register -H \"Content-Type: application/json\" -d \"{\"\"email\"\":\"\"test@example.com\"\",\"\"username\"\":\"\"testuser\"\",\"\"password\"\":\"\"abc12345\"\"}\")",
+      "Bash(python -c \"\nfrom passlib.context import CryptContext\npwd_context = CryptContext\\(schemes=[''bcrypt''], deprecated=''auto''\\)\ntry:\n    result = pwd_context.hash\\(''password123''\\)\n    print\\(''Success:'', len\\(result\\)\\)\nexcept Exception as e:\n    print\\(''Error:'', str\\(e\\)\\)\n\")",
+      "Bash(curl -s -X POST http://localhost:8001/auth/token -H \"Content-Type: application/json\" -d \"{\"\"email\"\":\"\"test@example.com\"\",\"\"password\"\":\"\"password123\"\"}\")",
+      "Bash(python -m pip list)",
+      "Bash(python -m uvicorn src.main:app --host 0.0.0.0 --port 8000)"
     ]
   }
 }

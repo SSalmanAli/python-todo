@@ -29,7 +29,7 @@ Create a `.env.local` file with the following variables:
 
 ```env
 # Backend API Configuration
-BACKEND_API_URL=http://localhost:8000
+BACKEND_API_URL=https://salman-12-python-todo-backend.hf.space/
 BACKEND_API_BASE_PATH=/api/v1
 
 # NextAuth Configuration

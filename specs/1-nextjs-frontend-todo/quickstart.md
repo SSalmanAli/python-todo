@@ -30,7 +30,7 @@ cp .env.example .env.local
 Edit `.env.local` with your configuration:
 ```env
 # Backend API Configuration
-BACKEND_API_URL=http://localhost:8000  # URL of your FastAPI backend
+BACKEND_API_URL=https://salman-12-python-todo-backend.hf.space/  # URL of your FastAPI backend
 BACKEND_API_BASE_PATH=/api/v1          # Base path for API endpoints
 
 # BetterAuth Configuration

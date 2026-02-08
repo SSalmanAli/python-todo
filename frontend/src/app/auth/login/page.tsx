@@ -27,8 +27,8 @@ const LoginPage = () => {
       if (result?.error) {
         setError(result.error);
       } else {
-        // Login successful, redirect to dashboard
-        router.push('/dashboard');
+        // Login successful, redirect to home
+        router.push('/');
         router.refresh(); // Refresh to update the session
       }
     } catch (err: any) {
@@ -92,7 +92,7 @@ const LoginPage = () => {
 
           <div className="flex items-center justify-between">
             <div className="text-sm">
-              <Link href="/auth/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <Link href="/auth/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
                 Don't have an account? Register
               </Link>
             </div>

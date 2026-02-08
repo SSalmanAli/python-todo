@@ -4,7 +4,10 @@ import jwt
 from fastapi import HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
+from sqlmodel import Session
 from src.config.settings import settings
+from src.config.database import get_session
+from src.services.user_service import UserService
 
 
 # Security scheme for Swagger UI
@@ -17,7 +20,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=settings.access_token_expire_minutes)
+        expire = datetime.utcnow() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
 
     to_encode.update({"exp": expire, "type": "access"})
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
@@ -65,7 +68,10 @@ def verify_token(token: str):
         )
 
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security_scheme)):
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security_scheme),
+    session: Session = Depends(get_session)
+):
     """Dependency to get current user from JWT token."""
     token = credentials.credentials
     payload = verify_token(token)
@@ -76,6 +82,16 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+    # Verify that the user exists in the database
+    user = UserService.get_user_by_id(session, user_id)
+    if not user or not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found or inactive",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
     return user_id
 
 
