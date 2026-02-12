@@ -83,7 +83,7 @@ class ApiClient {
   private getAuthToken(): string | null {
     // Get the token from localStorage where AuthProvider stores it
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('authToken') || localStorage.getItem('next-auth.session-token');
+      return localStorage.getItem('authToken');
     }
     return null;
   }

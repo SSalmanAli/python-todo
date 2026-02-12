@@ -94,3 +94,6 @@ const authOptions = {
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+
+// Export config to allow all routes in this file
+export const dynamic = 'force-dynamic';

@@ -44,7 +44,7 @@ const DashboardPage = () => {
   };
 
   const handleLogout = () => {
-    signOut({ callbackUrl: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/login` });
+    signOut({ callbackUrl: '/auth/login' });
   };
 
   if (isLoading) {
